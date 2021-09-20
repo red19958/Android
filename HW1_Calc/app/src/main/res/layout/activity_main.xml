@@ -7,16 +7,16 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/EXPRESSION"
+        android:id="@+id/expression"
         android:layout_width="match_parent"
-        android:layout_height="0sp"
+        android:layout_height="0dp"
         android:layout_weight="4"
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/RESULT"
+        android:id="@+id/result"
         android:layout_width="match_parent"
-        android:layout_height="0sp"
+        android:layout_height="0dp"
         android:layout_weight="4"
         android:textSize="30sp" />
 
@@ -26,86 +26,43 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/CLEAR"
+            android:id="@+id/clear"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Operation"
-            android:text="@string/_CLEAR"
+            android:onClick="operation"
+            android:text="@string/CLEAR"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/COPY"
+            android:id="@+id/copy"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Operation"
-            android:text="@string/_COPY"
+            android:onClick="operation"
+            android:text="@string/COPY"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/HELLO"
+            android:id="@+id/hello"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Operation"
-            android:text="@string/hello"
+            android:onClick="operation"
+            android:text="@string/HELLO"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/DIV"
+            android:id="@+id/div"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Operation"
-            android:text="@string/_DIV"
-            android:textSize="25sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <Button
-            style="@android:style/ButtonBar"
-            android:layout_width="0sp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="Number"
-            android:text="@string/_1"
-            android:textSize="25sp" />
-
-        <Button
-            style="@android:style/ButtonBar"
-            android:layout_width="0sp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="Number"
-            android:text="@string/_2"
-            android:textSize="25sp" />
-
-        <Button
-            style="@android:style/ButtonBar"
-            android:layout_width="0sp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="Number"
-            android:text="@string/_3"
-            android:textSize="25sp" />
-
-        <Button
-            android:id="@+id/MUL"
-            style="@android:style/ButtonBar"
-            android:layout_width="0sp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:onClick="Operation"
-            android:text="@string/_MUL"
+            android:onClick="operation"
+            android:text="@string/DIV"
             android:textSize="25sp" />
     </LinearLayout>
 
@@ -116,40 +73,40 @@
 
         <Button
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Number"
-            android:text="@string/_4"
+            android:onClick="number"
+            android:text="@string/B1"
             android:textSize="25sp" />
 
         <Button
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Number"
-            android:text="@string/_5"
+            android:onClick="number"
+            android:text="@string/B2"
             android:textSize="25sp" />
 
         <Button
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="Number"
-            android:text="@string/_6"
+            android:onClick="number"
+            android:text="@string/B3"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/SUB"
+            android:id="@+id/mul"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_SUB"
-            android:textSize="25sp"
-            android:onClick="Operation"/>
+            android:onClick="operation"
+            android:text="@string/MUL"
+            android:textSize="25sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -158,41 +115,41 @@
         android:layout_weight="1">
 
         <Button
-            android:onClick="Number"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_7"
+            android:onClick="number"
+            android:text="@string/B4"
             android:textSize="25sp" />
 
         <Button
-            android:onClick="Number"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_8"
+            android:onClick="number"
+            android:text="@string/B5"
             android:textSize="25sp" />
 
         <Button
-            android:onClick="Number"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_9"
+            android:onClick="number"
+            android:text="@string/B6"
             android:textSize="25sp" />
 
         <Button
-            android:id="@+id/ADD"
+            android:id="@+id/sub"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_ADD"
-            android:textSize="25sp"
-            android:onClick="Operation"/>
+            android:onClick="operation"
+            android:text="@string/SUB"
+            android:textSize="25sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -201,44 +158,86 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/button_0"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_0"
-            android:textSize="25sp"
-            android:onClick="Number"/>
+            android:onClick="number"
+            android:text="@string/B7"
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/DOT"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_."
-            android:textSize="25sp"
-            android:onClick="Operation"/>
+            android:onClick="number"
+            android:text="@string/B8"
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/DEL"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_DEL"
-            android:textSize="25sp"
-            android:onClick="Operation"/>
+            android:onClick="number"
+            android:text="@string/B9"
+            android:textSize="25sp" />
 
         <Button
-            android:id="@+id/EQUAL"
+            android:id="@+id/add"
             style="@android:style/ButtonBar"
-            android:layout_width="0sp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/_EQUAL"
-            android:textSize="25sp"
-            android:onClick="Operation"/>
+            android:onClick="operation"
+            android:text="@string/ADD"
+            android:textSize="25sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            style="@android:style/ButtonBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="number"
+            android:text="@string/B0"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/dot"
+            style="@android:style/ButtonBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="operation"
+            android:text="@string/DOT"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/del"
+            style="@android:style/ButtonBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="operation"
+            android:text="@string/DEL"
+            android:textSize="25sp" />
+
+        <Button
+            android:id="@+id/equal"
+            style="@android:style/ButtonBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="operation"
+            android:text="@string/EQUAL"
+            android:textSize="25sp" />
     </LinearLayout>
 
 

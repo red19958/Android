@@ -1,23 +1,23 @@
 <resources>
     <string name="app_name">HW1_Calc</string>
-    <string name="_.">.</string>
-    <string name="_DEL">DEL</string>
-    <string name="_EQUAL">=</string>
-    <string name="_ADD">+</string>
-    <string name="_SUB">-</string>
-    <string name="_MUL">*</string>
-    <string name="_DIV">/</string>
-    <string name="_COPY">COPY</string>
-    <string name="_CLEAR">CLEAR</string>
-    <string name="_0">0</string>
-    <string name="_1">1</string>
-    <string name="_2">2</string>
-    <string name="_3">3</string>
-    <string name="_4">4</string>
-    <string name="_5">5</string>
-    <string name="_6">6</string>
-    <string name="_7">7</string>
-    <string name="_8">8</string>
-    <string name="_9">9</string>
-    <string name="hello">HELLO</string>
+    <string name="DOT">.</string>
+    <string name="DEL">DEL</string>
+    <string name="EQUAL">=</string>
+    <string name="ADD">+</string>
+    <string name="SUB">—</string>
+    <string name="MUL">*</string>
+    <string name="DIV">/</string>
+    <string name="COPY">COPY</string>
+    <string name="CLEAR">CLEAR</string>
+    <string name="B0">0</string>
+    <string name="B1">1</string>
+    <string name="B2">2</string>
+    <string name="B3">3</string>
+    <string name="B4">4</string>
+    <string name="B5">5</string>
+    <string name="B6">6</string>
+    <string name="B7">7</string>
+    <string name="B8">8</string>
+    <string name="B9">9</string>
+    <string name="HELLO">HELLO</string>
 </resources>

@@ -16,15 +16,20 @@ const val RES = "RES"
 const val SAVED_RESULT = "SAVED_RESULT"
 const val LAST_OP = "LAST_OP"
 const val HELLO = "HELLO, WORLD!"
+const val FLAG = "FLAG"
+const val SIGN = "SIGN"
 
 class MainActivity : AppCompatActivity() {
 
-    private fun report(s: String) = Log.d("MAIN_ACTIVITY", s)
     private var currentExpression = ""
     private var savedResult = 0.0
-    private var lastOperator = ""
-    private var FLAG = 0
-    private var SIGN = ""
+    private var lastOperator = "a"
+    private var flag = 0
+
+    //flag = 0 поставить можно любой знак; flag = 1 последний символ это знак операции;
+    // flag = 2 нельзя ставить точку; flag = 3 последний символ это точка ;
+    // flag = 4 - не допускаются знаки операций; flag = 5 можно ставить только цифры
+    private var sign = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,26 +38,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        val RESULT = findViewById<TextView>(R.id.RESULT)
+        val res = findViewById<TextView>(R.id.result)
         outState.putString(EXPR, currentExpression)
-        outState.putString(RES, RESULT.text.toString())
+        outState.putString(RES, res.text.toString())
         outState.putDouble(SAVED_RESULT, savedResult)
         outState.putString(LAST_OP, lastOperator)
+        outState.putInt(FLAG, flag)
+        outState.putString(SIGN, sign)
         report("onSaveInstanceState")
         super.onSaveInstanceState(outState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        val EXPRESSION = findViewById<TextView>(R.id.EXPRESSION)
-        val RESULT = findViewById<TextView>(R.id.RESULT)
+        val expr = findViewById<TextView>(R.id.expression)
+        val res = findViewById<TextView>(R.id.result)
         currentExpression = savedInstanceState.getString(EXPR)!!
-        EXPRESSION.text = currentExpression
-        RESULT.text = savedInstanceState.getString(RES)
+        expr.text = currentExpression
+        res.text = savedInstanceState.getString(RES)
         savedResult = savedInstanceState.getDouble(SAVED_RESULT)
         lastOperator = savedInstanceState.getString(LAST_OP)!!
+        sign = savedInstanceState.getString(SIGN)!!
+        flag = savedInstanceState.getInt(FLAG)
         report("onRestoreInstanceState")
-
     }
 
     override fun onStart() {
@@ -80,108 +88,122 @@ class MainActivity : AppCompatActivity() {
         report("onDestroy")
     }
 
-    fun Operation(v: View) {
-        val TEXTVIEW: TextView = v as TextView
-        val EXPRESSION = findViewById<TextView>(R.id.EXPRESSION)
-        val RESULT = findViewById<TextView>(R.id.RESULT)
+    fun operation(v: View) {
+        val textView: TextView = v as TextView
+        val expr = findViewById<TextView>(R.id.expression)
+        val res = findViewById<TextView>(R.id.result)
 
 
-        when (TEXTVIEW.id) {
-
-            findViewById<Button>(R.id.CLEAR).id -> {
-                if (currentExpression != "" || RESULT.text != "") {
-                    RESULT.text = ""
+        when (textView.id) {
+            R.id.clear -> {
+                if (currentExpression != "" || res.text != "") {
+                    res.text = ""
                     currentExpression = ""
-                    EXPRESSION.text = ""
-                    FLAG = 0
-                    lastOperator = ""
-                    SIGN = ""
+                    expr.text = ""
+                    flag = 0
+                    lastOperator = "a"
+                    sign = ""
                 }
             }
 
-            findViewById<Button>(R.id.COPY).id -> {
+            R.id.copy -> {
                 val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = ClipData.newPlainText("label", RESULT.text)
+                val clip = ClipData.newPlainText("label", res.text)
                 clipboard.setPrimaryClip(clip)
             }
 
-            findViewById<Button>(R.id.HELLO).id->{
-                RESULT.text = HELLO
+            R.id.hello -> {
+                res.text = HELLO
             }
 
-            findViewById<Button>(R.id.DIV).id -> {
-                if (lastOperator.last().isDigit() && (FLAG == 0 || FLAG == 2)) {
-                    currentExpression += TEXTVIEW.text
-                    EXPRESSION.text = currentExpression
-                    FLAG = 1
-                    lastOperator = TEXTVIEW.text.toString()
-                    SIGN = TEXTVIEW.text.toString()
+            R.id.div -> {
+                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
+                    currentExpression += textView.text
+                    expr.text = currentExpression
+                    flag = 1
+                    lastOperator = textView.text.toString()
+                    sign = textView.text.toString()
                 }
             }
 
-            findViewById<Button>(R.id.MUL).id -> {
-                if (lastOperator.last().isDigit() && (FLAG == 0 || FLAG == 2)) {
-                    currentExpression += TEXTVIEW.text
-                    EXPRESSION.text = currentExpression
-                    FLAG = 1
-                    lastOperator = TEXTVIEW.text.toString()
-                    SIGN = TEXTVIEW.text.toString()
+            R.id.mul -> {
+                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
+                    currentExpression += textView.text
+                    expr.text = currentExpression
+                    flag = 1
+                    lastOperator = textView.text.toString()
+                    sign = textView.text.toString()
                 }
             }
 
-            findViewById<Button>(R.id.SUB).id -> {
-                if (lastOperator.last().isDigit() && (FLAG == 0 || FLAG == 2)) {
-                    currentExpression += TEXTVIEW.text
-                    EXPRESSION.text = currentExpression
-                    FLAG = 1
-                    lastOperator = TEXTVIEW.text.toString()
-                    SIGN = TEXTVIEW.text.toString()
+            R.id.sub -> {
+                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
+                    currentExpression += textView.text
+                    expr.text = currentExpression
+                    flag = 1
+                    lastOperator = textView.text.toString()
+                    sign = textView.text.toString()
                 }
             }
 
-            findViewById<Button>(R.id.ADD).id -> {
-                if (lastOperator.last().isDigit() && (FLAG == 0 || FLAG == 2)) {
-                    currentExpression += TEXTVIEW.text
-                    EXPRESSION.text = currentExpression
-                    FLAG = 1
-                    lastOperator = TEXTVIEW.text.toString()
-                    SIGN = TEXTVIEW.text.toString()
+            R.id.add -> {
+                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
+                    currentExpression += textView.text
+                    expr.text = currentExpression
+                    flag = 1
+                    lastOperator = textView.text.toString()
+                    sign = textView.text.toString()
                 }
             }
 
-            findViewById<Button>(R.id.DOT).id -> {
-                if (lastOperator.last().isDigit() && (FLAG == 0 || FLAG == 4)) {
-                    currentExpression += TEXTVIEW.text
-                    EXPRESSION.text = currentExpression
-                    FLAG = 3
+            R.id.dot -> {
+                if (lastOperator.last().isDigit() && (flag == 0 || flag == 4)) {
+                    currentExpression += textView.text
+                    expr.text = currentExpression
+
+                    if (flag == 0) {
+                        flag = 3
+                    }
+
+                    if (flag == 4) {
+                        flag = 5
+                    }
+
                     lastOperator = "."
                 }
             }
 
-            findViewById<Button>(R.id.DEL).id -> {
+            R.id.del -> {
+                if (currentExpression.length == 1) {
+                    currentExpression = ""
+                    expr.text = ""
+                    flag = 0
+                    lastOperator = "a"
+                    sign = ""
+                }
                 if (currentExpression != "") {
                     if (lastOperator == "+" || lastOperator == "-" ||
                         lastOperator == "*" || lastOperator == "/" ||
                         lastOperator == "."
                     ) {
-                        FLAG = 0
+                        flag = 0
                         lastOperator = "0"
-                        SIGN = ""
+                        sign = ""
                     }
                     currentExpression = currentExpression.dropLast(1)
-                    EXPRESSION.text = currentExpression
+                    expr.text = currentExpression
                 }
             }
 
-            findViewById<Button>(R.id.EQUAL).id -> {
+            R.id.equal -> {
                 report("EQUAL")
-                if (SIGN != "" && lastOperator.last().isDigit()) {
+                if (sign != "" && lastOperator.last().isDigit()) {
                     var firstString = ""
                     var secondString = ""
                     var costyl = 0
 
                     for (i in currentExpression.indices) {
-                        if (currentExpression[i].toString() != SIGN) {
+                        if (currentExpression[i].toString() != sign) {
                             firstString += currentExpression[i]
                         } else {
                             break
@@ -189,10 +211,10 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     for (i in currentExpression.indices) {
-                        if(costyl == 1){
+                        if (costyl == 1) {
                             secondString += currentExpression[i]
                         }
-                        if (currentExpression[i].toString() == SIGN) {
+                        if (currentExpression[i].toString() == sign) {
                             costyl = 1
                         }
                     }
@@ -200,59 +222,60 @@ class MainActivity : AppCompatActivity() {
                     val first = firstString.toDouble()
                     val second = secondString.toDouble()
 
-                    if (SIGN == "+") {
-                        RESULT.text = (first + second).toString()
-                        currentExpression = RESULT.text.toString()
-                        EXPRESSION.text = currentExpression
+                    if (sign == "+") {
+                        res.text = (first + second).toString()
+                        currentExpression = res.text.toString()
+                        expr.text = currentExpression
                         lastOperator = "0"
-                        SIGN = ""
-                        FLAG = 2
+                        sign = ""
+                        flag = 2
                     }
 
-                    if (SIGN == "-") {
-                        RESULT.text = (first - second).toString()
-                        currentExpression = RESULT.text.toString()
-                        EXPRESSION.text = currentExpression
+                    if (sign == "—") {
+                        res.text = (first - second).toString()
+                        currentExpression = res.text.toString()
+                        expr.text = currentExpression
                         lastOperator = "0"
-                        SIGN = ""
-                        FLAG = 2
+                        sign = ""
+                        flag = 2
                     }
 
-                    if (SIGN == "*") {
-                        RESULT.text = (first * second).toString()
-                        currentExpression = RESULT.text.toString()
-                        EXPRESSION.text = currentExpression
+                    if (sign == "*") {
+                        res.text = (first * second).toString()
+                        currentExpression = res.text.toString()
+                        expr.text = currentExpression
                         lastOperator = "0"
-                        SIGN = ""
-                        FLAG = 2
+                        sign = ""
+                        flag = 2
                     }
 
-                    if (SIGN == "/") {
-                        RESULT.text = (first / second).toString()
-                        currentExpression = RESULT.text.toString()
-                        EXPRESSION.text = currentExpression
+                    if (sign == "/") {
+                        res.text = (first / second).toString()
+                        currentExpression = res.text.toString()
+                        expr.text = currentExpression
                         lastOperator = "0"
-                        SIGN = ""
-                        FLAG = 2
+                        sign = ""
+                        flag = 2
                     }
                 }
             }
         }
     }
 
-    fun Number(v: View) {
-        val EXPRESSION = findViewById<TextView>(R.id.EXPRESSION)
+    fun number(v: View) {
         val button: Button = v as Button
 
-        if (FLAG == 3) {
-            FLAG = 2
+        if (flag == 3) {
+            flag = 2
         }
-        if (FLAG == 1) {
-            FLAG = 4
+
+        if (flag == 1) {
+            flag = 4
         }
 
         currentExpression += button.text
-        EXPRESSION.text = currentExpression
+        findViewById<TextView>(R.id.expression).text = currentExpression
         lastOperator = button.text.toString()
     }
+    private fun report(s: String) = Log.d("MAIN_ACTIVITY", s)
 }
