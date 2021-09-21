@@ -174,6 +174,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.del -> {
+                if (currentExpression == "Infinity" || currentExpression == "NaN") {
+                    currentExpression = ""
+                    expr.text = ""
+                    flag = 0
+                    lastOperator = "a"
+                    sign = ""
+                }
                 if (currentExpression.length == 1) {
                     currentExpression = ""
                     expr.text = ""
@@ -277,5 +284,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.expression).text = currentExpression
         lastOperator = button.text.toString()
     }
+
     private fun report(s: String) = Log.d("MAIN_ACTIVITY", s)
 }
