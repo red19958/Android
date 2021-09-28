@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">This is my WeatherApp. There are many like it, but this one is mine</string>
+    <string name="_15_c">15° C</string>
+    <string name="saint_petersburg">Saint-Petersburg</string>
+    <string name="cloudy">CLOUDY</string>
+    <string name="todo">TODO</string>
+    <string name="n7">7</string>
+    <string name="n10">10</string>
+    <string name="n100">100</string>
+    <string name="windFlow">Wind flow</string>
+    <string name="preception">Preception</string>
+    <string name="humidity">Humidity</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="_14_c">14° C</string>
+    <string name="_10_c">10° C</string>
+    <string name="_7_c">7° C</string>
+    <string name="weather">weather</string>
+    <string name="button">button</string>
+</resources>

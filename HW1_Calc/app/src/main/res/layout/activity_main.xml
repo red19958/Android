@@ -10,20 +10,20 @@
         android:id="@+id/expression"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="1"
         android:textSize="30sp" />
 
     <TextView
         android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="1"
         android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="40dp"
+        android:layout_weight="0.1">
 
         <Button
             android:id="@+id/clear"
@@ -68,8 +68,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="40dp"
+        android:layout_weight="0.1">
 
         <Button
             style="@android:style/ButtonBar"
@@ -111,8 +111,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="40dp"
+        android:layout_weight="0.1">
 
         <Button
             style="@android:style/ButtonBar"
@@ -154,8 +154,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="40dp"
+        android:layout_weight="0.1">
 
         <Button
             style="@android:style/ButtonBar"
@@ -197,8 +197,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="40dp"
+        android:layout_weight="0.1">
 
         <Button
             style="@android:style/ButtonBar"

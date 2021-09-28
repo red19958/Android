@@ -14,7 +14,6 @@ import android.content.Context
 const val EXPR = "EXPR"
 const val RES = "RES"
 const val SAVED_RESULT = "SAVED_RESULT"
-const val LAST_OP = "LAST_OP"
 const val HELLO = "HELLO, WORLD!"
 const val FLAG = "FLAG"
 const val SIGN = "SIGN"
@@ -23,12 +22,12 @@ class MainActivity : AppCompatActivity() {
 
     private var currentExpression = ""
     private var savedResult = 0.0
-    private var lastOperator = "a"
     private var flag = 0
 
-    //flag = 0 поставить можно любой знак; flag = 1 последний символ это знак операции;
-    // flag = 2 нельзя ставить точку; flag = 3 последний символ это точка ;
-    // flag = 4 - не допускаются знаки операций; flag = 5 можно ставить только цифры
+    //flag = 0 поставить можно любой знак; flag = 1 есть операция нет точки у 1;
+    //flag = 2 у 1ого стоит точка нет операции; flag = 3 была точка у 1ого сейчас операция;
+    //flag = 4 у 1ого была точка, была операция и сейчас точка; flag = 5 запрет у 1ого нет точки;
+    //flag = 6 запрет у 1ого есть точка; flag = 7 у 1ого была точка и была операция
     private var sign = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         outState.putString(EXPR, currentExpression)
         outState.putString(RES, res.text.toString())
         outState.putDouble(SAVED_RESULT, savedResult)
-        outState.putString(LAST_OP, lastOperator)
         outState.putInt(FLAG, flag)
         outState.putString(SIGN, sign)
         report("onSaveInstanceState")
@@ -57,7 +55,6 @@ class MainActivity : AppCompatActivity() {
         expr.text = currentExpression
         res.text = savedInstanceState.getString(RES)
         savedResult = savedInstanceState.getDouble(SAVED_RESULT)
-        lastOperator = savedInstanceState.getString(LAST_OP)!!
         sign = savedInstanceState.getString(SIGN)!!
         flag = savedInstanceState.getInt(FLAG)
         report("onRestoreInstanceState")
@@ -101,7 +98,6 @@ class MainActivity : AppCompatActivity() {
                     currentExpression = ""
                     expr.text = ""
                     flag = 0
-                    lastOperator = "a"
                     sign = ""
                 }
             }
@@ -116,95 +112,111 @@ class MainActivity : AppCompatActivity() {
                 res.text = HELLO
             }
 
-            R.id.div -> {
-                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
+            R.id.div, R.id.sub, R.id.mul, R.id.add -> {
+                if ((currentExpression != "" &&
+                            currentExpression.last().isDigit() && (flag == 2 || flag == 0)) ||
+                    currentExpression == "Infinity" || currentExpression == "NaN"
+                ) {
                     currentExpression += textView.text
                     expr.text = currentExpression
-                    flag = 1
-                    lastOperator = textView.text.toString()
-                    sign = textView.text.toString()
-                }
-            }
-
-            R.id.mul -> {
-                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
-                    currentExpression += textView.text
-                    expr.text = currentExpression
-                    flag = 1
-                    lastOperator = textView.text.toString()
-                    sign = textView.text.toString()
-                }
-            }
-
-            R.id.sub -> {
-                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
-                    currentExpression += textView.text
-                    expr.text = currentExpression
-                    flag = 1
-                    lastOperator = textView.text.toString()
-                    sign = textView.text.toString()
-                }
-            }
-
-            R.id.add -> {
-                if (lastOperator.last().isDigit() && (flag == 0 || flag == 2)) {
-                    currentExpression += textView.text
-                    expr.text = currentExpression
-                    flag = 1
-                    lastOperator = textView.text.toString()
+                    if(flag == 0){
+                        flag = 1
+                    }
+                    if(flag == 2){
+                        flag = 3
+                    }
                     sign = textView.text.toString()
                 }
             }
 
             R.id.dot -> {
-                if (lastOperator.last().isDigit() && (flag == 0 || flag == 4)) {
+                if (currentExpression != "" && currentExpression.last()
+                        .isDigit() && (flag == 0 || flag == 1 || flag == 7)
+                ) {
                     currentExpression += textView.text
                     expr.text = currentExpression
 
-                    if (flag == 0) {
-                        flag = 3
+                    when (flag) {
+                        0 -> {
+                            flag = 2
+                        }
+                        1 -> {
+                            flag = 5
+                        }
+                        7 -> {
+                            flag = 6
+                        }
                     }
-
-                    if (flag == 4) {
-                        flag = 5
-                    }
-
-                    lastOperator = "."
                 }
             }
 
             R.id.del -> {
-                if (currentExpression == "Infinity" || currentExpression == "NaN") {
+
+                if (currentExpression == "Infinity" || currentExpression == "NaN" || currentExpression.length == 1) {
                     currentExpression = ""
                     expr.text = ""
                     flag = 0
-                    lastOperator = "a"
                     sign = ""
                 }
-                if (currentExpression.length == 1) {
-                    currentExpression = ""
-                    expr.text = ""
-                    flag = 0
-                    lastOperator = "a"
-                    sign = ""
-                }
+
                 if (currentExpression != "") {
-                    if (lastOperator == "+" || lastOperator == "-" ||
-                        lastOperator == "*" || lastOperator == "/" ||
-                        lastOperator == "."
+                    if (currentExpression.last() == '+' || currentExpression.last() == '—' ||
+                        currentExpression.last() == '*' || currentExpression.last() == '/'
                     ) {
-                        flag = 0
-                        lastOperator = "0"
+                        if(flag == 3){
+                            flag = 2
+                        }
+
+                        if(flag == 1){
+                            flag = 0
+                        }
+
                         sign = ""
+                        currentExpression = currentExpression.dropLast(1)
                     }
-                    currentExpression = currentExpression.dropLast(1)
+
+                    else if (currentExpression.last() == '.') {
+                        if(flag == 2){
+                            flag = 0
+                            sign = ""
+                        }
+
+                        if(flag == 4){
+                            flag = 7
+                        }
+
+                        if(flag == 6){
+                            flag = 7
+                        }
+                        currentExpression = currentExpression.dropLast(1)
+                    }
+
+                    else if (currentExpression.last().isDigit()) {
+                        currentExpression = currentExpression.dropLast(1)
+                        if(currentExpression.last() == '.'){
+                            if(flag == 5){
+                                flag = 1
+                            }
+                            if(flag == 6){
+                                flag = 4
+                            }
+                        }
+
+                        if (currentExpression.last() == '+' || currentExpression.last() == '—' ||
+                            currentExpression.last() == '*' || currentExpression.last() == '/'
+                        ){
+                            if(flag == 7){
+                                flag = 3
+                            }
+                        }
+                    }
                     expr.text = currentExpression
                 }
             }
 
             R.id.equal -> {
                 report("EQUAL")
-                if (sign != "" && lastOperator.last().isDigit()) {
+                if (sign != "" && currentExpression.last().isDigit()) {
                     var firstString = ""
                     var secondString = ""
                     var costyl = 0
@@ -231,58 +243,39 @@ class MainActivity : AppCompatActivity() {
 
                     if (sign == "+") {
                         res.text = (first + second).toString()
-                        currentExpression = res.text.toString()
-                        expr.text = currentExpression
-                        lastOperator = "0"
-                        sign = ""
-                        flag = 2
                     }
 
                     if (sign == "—") {
                         res.text = (first - second).toString()
-                        currentExpression = res.text.toString()
-                        expr.text = currentExpression
-                        lastOperator = "0"
-                        sign = ""
-                        flag = 2
                     }
 
                     if (sign == "*") {
                         res.text = (first * second).toString()
-                        currentExpression = res.text.toString()
-                        expr.text = currentExpression
-                        lastOperator = "0"
-                        sign = ""
-                        flag = 2
                     }
 
                     if (sign == "/") {
                         res.text = (first / second).toString()
-                        currentExpression = res.text.toString()
-                        expr.text = currentExpression
-                        lastOperator = "0"
-                        sign = ""
-                        flag = 2
                     }
+
+                    currentExpression = res.text.toString()
+                    expr.text = currentExpression
+                    sign = ""
+                    flag = 2
                 }
             }
         }
     }
 
     fun number(v: View) {
-        val button: Button = v as Button
+        if (currentExpression != "NaN" && currentExpression != "Infinity") {
+            val button: Button = v as Button
 
-        if (flag == 3) {
-            flag = 2
+            if(flag == 3){
+                flag = 7
+            }
+            currentExpression += button.text
+            findViewById<TextView>(R.id.expression).text = currentExpression
         }
-
-        if (flag == 1) {
-            flag = 4
-        }
-
-        currentExpression += button.text
-        findViewById<TextView>(R.id.expression).text = currentExpression
-        lastOperator = button.text.toString()
     }
 
     private fun report(s: String) = Log.d("MAIN_ACTIVITY", s)
