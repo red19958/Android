@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">HW3_Contacts</string>
+    <string name="check_permission">Check permission</string>
+    <string name="info_check_permission">For viewing contacts list you need to give permission</string>
+    <string name="permission_not_received">Permission was not received</string>
+    <string name="sms" translatable="false">SMS</string>
+    <string name="closeSMS">Close the app then open it</string>
+    <string name="defaultMessage">SilverName, turn stream off with shame</string>
+    <plurals name="contacts_loaded">
+        <item quantity="zero">No contacts loaded</item>
+        <item quantity="one">%d contact loaded</item>
+        <item quantity="other">%d contacts loaded</item>
+    </plurals>
+</resources>
