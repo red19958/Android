@@ -18,11 +18,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
-
 class MainActivity : AppCompatActivity() {
     private val myRequestId = 11
     private var contactList = ArrayList<Contact>()
     private var size = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(size != 0){
+        if (size != 0) {
             Toast.makeText(
                 applicationContext, resources.getQuantityString(
                     R.plurals.contacts_loaded,
@@ -111,8 +111,9 @@ class MainActivity : AppCompatActivity() {
         private val contacts: List<Contact>,
     ) : RecyclerView.Adapter<ContactViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-            return ContactViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item, parent, false))
+            return ContactViewHolder(
+                LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false),
+            )
         }
 
         override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
