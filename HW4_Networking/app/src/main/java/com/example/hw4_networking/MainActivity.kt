@@ -1,33 +1,29 @@
 package com.example.hw4_networking
 
-import android.content.ComponentName
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.coroutineScope
 import com.example.hw4_networking.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import kotlinx.coroutines.*
 
-const val MESSAGE = "MESSAGE"
-var myService: MyService? = null
-var isBound = false
 class MainActivity : AppCompatActivity() {
-
+    lateinit var myService: MyService
+    var isBound = false
     var listOfImages: List<Image> = mutableListOf()
     private var message: String? = null
     private lateinit var binding: ActivityMainBinding
     private val boundServiceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            val binderBridge: MyService.MyBinder = service as MyService.MyBinder
-            myService = binderBridge.getService()
-            isBound = true
-            lifecycle.coroutineScope.launch {
+            val scope = CoroutineScope(Dispatchers.Main)
+            scope.launch {
+                val binderBridge: MyService.MyBinder = service as MyService.MyBinder
+                myService = binderBridge.getService()
+                isBound = true
                 if (message == null) {
-                    message = myService!!.getMessage()
-                    listOfImages = myService!!.getListOfImages()
+                    message = myService.getMessage()
+                    listOfImages = myService.getListOfImages()
                 } else {
                     listOfImages = fillRecyclerView(message!!)
                 }
@@ -83,5 +79,9 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         message = savedInstanceState.getString(MESSAGE)
+    }
+
+    companion object {
+        const val MESSAGE = "MESSAGE"
     }
 }

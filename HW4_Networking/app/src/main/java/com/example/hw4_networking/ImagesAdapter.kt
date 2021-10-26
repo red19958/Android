@@ -1,8 +1,6 @@
 package com.example.hw4_networking
 
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hw4_networking.databinding.ImageViewBinding
 
