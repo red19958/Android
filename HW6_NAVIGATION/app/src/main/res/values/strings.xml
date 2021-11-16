@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">HW6_NAVIGATION</string>
+    <string name="home">Home</string>
+    <string name="dictionary">Dictionary</string>
+    <string name="chat">Chat</string>
+    <string name="click_me">Click Me!</string>
+    <string name="cnt">0</string>
+    <string name="dictionary_fragment">DictionaryFragment</string>
+    <string name="home_fragment">HomeFragment</string>
+    <string name="chat_fragment">ChatFragment</string>
+    <string name="new_fragment">NewFragment</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
