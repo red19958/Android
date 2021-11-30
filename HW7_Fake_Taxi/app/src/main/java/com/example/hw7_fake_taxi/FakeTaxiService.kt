@@ -1,15 +1,15 @@
 package com.example.hw7_fake_taxi
 
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface FakeTaxiService {
     @GET("/posts")
-    fun downloadPosts(): Call<List<Post>>
+    suspend fun downloadPosts(): List<Post>
 
     @DELETE("/posts/{id}")
-    fun deletePost(@Path("id") id : String) : Call<Post>
+    suspend fun deletePost(@Path("id") id : String) : Response<Post>
 
     @POST("/posts")
-    fun makePost(@Body post: Post) : Call<Post>
+    suspend fun makePost(@Body post: Post) : Response<Post>
 }

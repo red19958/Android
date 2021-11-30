@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">FakeAPI</string>
+    <string name="new_post">Add</string>
+    <string name="body">body</string>
+    <string name="title">TITLE</string>
+    <string name="delete">delete</string>
+    <string name="update">Update</string>
+    <string name="user_id">User ID</string>
+    <string name="post_body">Body</string>
+    <string name="post_title">Title</string>
+    <string name="post_id">Post ID</string>
+    <string name="add">Add</string>
+    <string name="back">Back</string>
+    <string name="_1337">1337</string>
+    <string name="downloading_post">downloading post code</string>
+</resources>

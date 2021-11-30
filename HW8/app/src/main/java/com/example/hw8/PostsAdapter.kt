@@ -1,10 +1,10 @@
-package com.example.hw7_fake_taxi
+package com.example.hw8
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hw7_fake_taxi.databinding.PostBinding
+import com.example.hw8.databinding.PostBinding
 
 class PostsAdapter(
     internal val posts: ArrayList<Post>,
@@ -17,10 +17,10 @@ class PostsAdapter(
         )
 
         holder.del.setOnClickListener {
-            onClick(posts[holder.adapterPosition])
-            posts.removeAt(holder.adapterPosition)
-            notifyItemRemoved(holder.adapterPosition)
-            notifyItemRangeChanged(holder.adapterPosition, posts.size)
+            onClick(posts[holder.absoluteAdapterPosition])
+            posts.removeAt(holder.absoluteAdapterPosition)
+            notifyItemRemoved(holder.absoluteAdapterPosition)
+            notifyItemRangeChanged(holder.absoluteAdapterPosition, posts.size)
         }
 
         return holder

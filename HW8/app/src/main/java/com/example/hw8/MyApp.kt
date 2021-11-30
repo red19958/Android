@@ -1,12 +1,19 @@
-package com.example.hw7_fake_taxi
+package com.example.hw8
 
 import android.app.Application
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import androidx.room.Room
+import com.example.hw8.MainActivity.AppDatabase
+
 
 class MyApp : Application() {
-    lateinit var apiService : FakeTaxiService
-    var posts : List<Post>? = null
+
+    lateinit var apiService: FakeApiService
+        private set
+    var post: Post? = null
+    private lateinit var database: AppDatabase
+    lateinit var postsDao : PostsDao
 
     override fun onCreate() {
         super.onCreate()
@@ -16,7 +23,9 @@ class MyApp : Application() {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
 
-        apiService = retrofit.create(FakeTaxiService::class.java)
+        apiService = retrofit.create(FakeApiService::class.java)
+        database = Room.databaseBuilder(this@MyApp, AppDatabase::class.java, "posts-database").build()
+        postsDao = database.postsDao()!!
     }
 
     companion object {

@@ -1,74 +1,98 @@
 package com.example.hw7_fake_taxi
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.lifecycle.coroutineScope
 import com.example.hw7_fake_taxi.databinding.ActivityMainBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import android.widget.Toast
+
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var adapter: PostsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        lifecycle.coroutineScope.launch {
+            binding.progressBar.isVisible = true
+            binding.add.isVisible = false
 
-        if (MyApp.instance.posts.isNotEmpty()) {
-            fillRecyclerView()
-        } else {
-            MyApp.instance.apiService.downloadPosts().enqueue(DownloadCallback())
-        }
-    }
+            val data = async {
+                try {
+                    MyApp.instance.apiService.downloadPosts()
+                } catch (e: Exception) {
 
-    inner class CallbackCode : Callback<Post> {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Problems with connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-        override fun onFailure(call: Call<Post>?, throwable: Throwable?) =
-            Toast.makeText(this@MainActivity, "Problems with connection", Toast.LENGTH_SHORT).show()
-
-
-        override fun onResponse(call: Call<Post>?, response: Response<Post>?) {
-            if (response != null) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Finished with ${response.code()}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    if (MyApp.instance.posts == null) error(applicationContext)
+                    arrayListOf(Post(1, "title", "body", 1))
+                }
             }
-        }
-    }
 
-    inner class DownloadCallback : Callback<List<Post>> {
-        override fun onFailure(call: Call<List<Post>>, throwable: Throwable) =
-            Toast.makeText(this@MainActivity, "Problems with connection", Toast.LENGTH_SHORT).show()
+            if (MyApp.instance.posts == null)
+                MyApp.instance.posts = data.await()
 
-
-        override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-            MyApp.instance.posts = response.body()
-            fillRecyclerView()
-        }
-    }
-
-    fun fillRecyclerView() {
-        binding.myRecyclerView.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = PostsAdapter(MyApp.instance.posts) {
-                MyApp.instance.apiService.deletePost(it.id.toString()).enqueue(CallbackCode())
+            adapter = PostsAdapter(MyApp.instance.posts!! as ArrayList<Post>) {
+                lifecycle.coroutineScope.launch {
+                    try {
+                        val response = MyApp.instance.apiService.deletePost(it.id.toString())
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Finished with ${response.code()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Problems with connection",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
-        }
 
-        binding.progressBar.visibility = View.INVISIBLE
+            binding.myRecyclerView.adapter = adapter
+            binding.progressBar.isVisible = false
+            binding.add.isVisible = true
+        }
     }
 
     fun onClickAddEvent(view: View) {
         if (view is Button) {
             val post = Post(1, "1", "1", 1)
-            MyApp.instance.apiService.makePost(post).enqueue(CallbackCode())
+
+            lifecycle.coroutineScope.launch {
+                try {
+                    val response = MyApp.instance.apiService.makePost(post)
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Finished with ${response.code()}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Problems with connection",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            adapter.posts.add(0, post)
+            adapter.notifyItemInserted(0)
         }
     }
 }

@@ -2,9 +2,8 @@
 <resources>
     <declare-styleable name="CustomView">
         <attr name="radius" format="dimension"/>
-        <attr name="transl" format="float"/>
         <attr name="speed" format="float"/>
-        <attr name="animationDuration" format="float"/>
+        <!--<attr name="animationDuration" format="float"/>-->
         <attr name="color" format="color"/>
         <attr name="infinite" format="boolean"/>
     </declare-styleable>

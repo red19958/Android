@@ -24,7 +24,7 @@
         android:id="@+id/cView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:animationDuration="1000"
+
         app:infinite="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,6 +33,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintVertical_bias="1.0"
         app:radius="25dp"
-        app:speed="5" />
+        />
+    <!--app:animationDuration="1000"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
