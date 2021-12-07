@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val arguments = intent.extras
-        if (arguments != null && !arguments.isEmpty) {
+
+        if (arguments != null  && MyApp.instance.post != null) {
             MyApp.instance.post.let { addPost(it!!) }
         }
 
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                     arrayListOf(Post(1, "title", "body", 1))
                 }
             }
+
             if (dat == null) {
                 dat = data.await() as ArrayList<Post>?
                 for (post in dat!!) {
@@ -81,30 +83,43 @@ class MainActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     } catch (e: Exception) {
+                        MyApp.instance.postsDao.deletePost(it)
                         Toast.makeText(
                             this@MainActivity,
-                            "SHIT",
+                            "Problems with connection",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
             }
+
             binding.myRecyclerView.adapter = adapter
+            binding.progressBar.isVisible = false
+            binding.add.isVisible = true
         }
-
-
-        binding.progressBar.isVisible = false
-        binding.add.isVisible = true
     }
 
     private fun addPost(post: Post) {
         lifecycle.coroutineScope.launch {
-            MyApp.instance.apiService.makePost(post)
-            MyApp.instance.postsDao.insertPost(post)
-            adapter.posts.add(1, post)
-            adapter.notifyItemInserted(1)
-            intent.removeExtra("added")
+            try {
+                MyApp.instance.apiService.makePost(post)
+                MyApp.instance.postsDao.insertPost(post)
+                adapter.posts.add(1, post)
+                adapter.notifyItemInserted(1)
+                intent.removeExtra("added")
+            } catch (e: Exception) {
+                MyApp.instance.postsDao.insertPost(post)
+                adapter.posts.add(1, post)
+                adapter.notifyItemInserted(1)
+                intent.removeExtra("added")
+                Toast.makeText(
+                    this@MainActivity,
+                    "Problems with connection",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
+
     }
 
     fun onAddClickEvent(view: View) {
@@ -118,6 +133,9 @@ class MainActivity : AppCompatActivity() {
         if (view is Button) {
             clearDatabase()
             lifecycle.coroutineScope.launch {
+                binding.myRecyclerView.isVisible = false
+                binding.progressBar.isVisible = true
+                binding.add.isVisible = false
                 val data = async {
                     try {
                         MyApp.instance.apiService.downloadPosts()
@@ -150,13 +168,16 @@ class MainActivity : AppCompatActivity() {
                         } catch (e: Exception) {
                             Toast.makeText(
                                 this@MainActivity,
-                                "SHIT",
+                                "Problems with connection",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
                 }
                 binding.myRecyclerView.adapter = adapter
+                binding.myRecyclerView.isVisible = true
+                binding.progressBar.isVisible = false
+                binding.add.isVisible = true
             }
         }
 
